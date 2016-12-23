@@ -1,0 +1,28 @@
+{
+    "name": "mg-code/yii2-language",
+    "description": "Yii2 multi language support.",
+    "keywords": [
+        "yii2",
+        "extension",
+        "multi languages"
+    ],
+    "homepage": "https://github.com/mg-code/yii2-language",
+    "type": "yii2-extension",
+    "license": "BSD 3-Clause",
+    "authors": [
+        {
+            "name": "Maris Graudins",
+            "role": "Developer"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "yiisoft/yii2": "*",
+        "mg-code/yii2-helpers": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "mgcode\\language\\": ""
+        }
+    }
+}
