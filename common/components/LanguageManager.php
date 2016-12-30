@@ -73,6 +73,21 @@ class LanguageManager extends Object implements BootstrapInterface
         });
     }
 
+    private $_supported;
+
+    /**
+     * Returns list of supported languages.
+     * @return array
+     */
+    public function getSupported()
+    {
+        if ($this->_supported !== null) {
+            return $this->_supported;
+        }
+        $this->_supported = Language::find()->select('iso_code')->column();
+        return $this->_supported;
+    }
+
     /**
      * Loads url rules for multi-language pages
      */
@@ -128,20 +143,5 @@ class LanguageManager extends Object implements BootstrapInterface
                 'defaults' => ['lang' => $this->defaultLanguage],
             ],
         ]);
-    }
-
-    private $_supported;
-
-    /**
-     * Returns list of supported languages.
-     * @return array
-     */
-    protected function getSupported()
-    {
-        if ($this->_supported !== null) {
-            return $this->_supported;
-        }
-        $this->_supported = Language::find()->select('iso_code')->column();
-        return $this->_supported;
     }
 }
