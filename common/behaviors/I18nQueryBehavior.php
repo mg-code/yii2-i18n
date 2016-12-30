@@ -58,25 +58,24 @@ class I18nQueryBehavior extends Behavior
     /**
      * Orders by translated attribute
      * @param string $attribute
+     * @param int $sort Default sort by ASC.
      * @return ActiveQuery
      */
-    public function orderByI18nAttribute($attribute)
+    public function orderByI18nAttribute($attribute, $sort = SORT_ASC)
     {
-        $matchLanguage = \Yii::$app->language;
-
         /** @var ActiveQuery $query */
         $query = $this->owner;
         $alias = 'i18n_'.$this->aliases++;
 
         $query->joinWith([
-            $this->relation.' '.$alias => function ($query) use ($alias, $attribute, $matchLanguage) {
+            $this->relation.' '.$alias => function ($query) use ($alias, $attribute, $sort) {
                 /** @var $query ActiveQuery */
                 $query
                     ->andWhere([
                         $alias.'.key' => $attribute,
-                        $alias.'.lang' => $matchLanguage,
+                        $alias.'.lang' => \Yii::$app->language,
                     ])
-                    ->orderBy([$alias.'.value' => SORT_ASC]);
+                    ->orderBy([$alias.'.value' => $sort]);
             }
         ], false, 'LEFT JOIN');
 
