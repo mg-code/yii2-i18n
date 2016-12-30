@@ -1,6 +1,6 @@
 <?php
 
-namespace mgcode\language\common\components;
+namespace mgcode\i18n\common\components;
 
 use yii\web\UrlRule;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace mgcode\language\common\behaviors;
+namespace mgcode\i18n\common\behaviors;
 
 use yii\base\Behavior;
 use yii\base\InvalidCallException;

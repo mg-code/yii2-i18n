@@ -1,6 +1,6 @@
 <?php
 
-namespace mgcode\language\common\models;
+namespace mgcode\i18n\common\models;
 
 use Yii;
 
@@ -51,10 +51,10 @@ abstract class AbstractLanguage extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \mgcode\language\common\models\queries\LanguageQuery the active query used by this AR class.
+     * @return \mgcode\i18n\common\models\queries\LanguageQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \mgcode\language\common\models\queries\LanguageQuery(get_called_class());
+        return new \mgcode\i18n\common\models\queries\LanguageQuery(get_called_class());
     }
 }

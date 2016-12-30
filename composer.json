@@ -1,12 +1,12 @@
 {
-    "name": "mg-code/yii2-language",
+    "name": "mg-code/yii2-i18n",
     "description": "Yii2 multi language support.",
     "keywords": [
         "yii2",
         "extension",
         "multi languages"
     ],
-    "homepage": "https://github.com/mg-code/yii2-language",
+    "homepage": "https://github.com/mg-code/yii2-i18n",
     "type": "yii2-extension",
     "license": "BSD 3-Clause",
     "authors": [
@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "mgcode\\language\\": ""
+            "mgcode\\i18n\\": ""
         }
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace mgcode\language\common\models\queries;
+namespace mgcode\i18n\common\models\queries;
 
 use mgcode\helpers\ActiveQueryAliasTrait;
 
 /**
- * This is the ActiveQuery class for [[\mgcode\language\common\models\Language]].
- * @see \mgcode\language\common\models\Language
+ * This is the ActiveQuery class for [[\mgcode\i18n\common\models\Language]].
+ * @see \mgcode\i18n\common\models\Language
  */
 class LanguageQuery extends \yii\db\ActiveQuery
 {
@@ -28,7 +28,7 @@ class LanguageQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \mgcode\language\common\models\Language[]|array
+     * @return \mgcode\i18n\common\models\Language[]|array
      */
     public function all($db = null)
     {
@@ -37,7 +37,7 @@ class LanguageQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \mgcode\language\common\models\Language|array|null
+     * @return \mgcode\i18n\common\models\Language|array|null
      */
     public function one($db = null)
     {

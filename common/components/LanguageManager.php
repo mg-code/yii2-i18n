@@ -1,8 +1,8 @@
 <?php
 
-namespace mgcode\language\common\components;
+namespace mgcode\i18n\common\components;
 
-use mgcode\language\common\models\Language;
+use mgcode\i18n\common\models\Language;
 use yii\base\BootstrapInterface;
 use yii\base\InvalidParamException;
 use yii\base\Object;
@@ -15,7 +15,7 @@ use yii\web\Application;
  * ```php
  * 'components' => [
  *     'languageManager' => [
- *         'class' => \mgcode\language\common\components\LanguageManager::className(),
+ *         'class' => \mgcode\i18n\common\components\LanguageManager::className(),
  *         'defaultLanguage' => 'en',
  *     ],
  *     .......

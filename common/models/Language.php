@@ -1,6 +1,6 @@
 <?php
 
-namespace mgcode\language\common\models;
+namespace mgcode\i18n\common\models;
 
 use yii\helpers\Url;
 

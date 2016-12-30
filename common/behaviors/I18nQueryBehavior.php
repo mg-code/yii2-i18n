@@ -1,6 +1,6 @@
 <?php
 
-namespace mgcode\language\common\behaviors;
+namespace mgcode\i18n\common\behaviors;
 
 use mgcode\helpers\ActiveQueryAliasTrait;
 use yii\base\Behavior;
