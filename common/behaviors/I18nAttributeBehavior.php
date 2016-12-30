@@ -9,8 +9,22 @@ use yii\db\ActiveRecord;
 
 /**
  * Class I18nAttributeBehavior
+ * To use I18nAttributeBehavior, insert the following code to your ActiveRecord class:
  *
- * 
+ * ```php
+ * use mgcode\i18n\common\behaviors\I18nAttributeBehavior;
+ *
+ * public function behaviors()
+ * {
+ *     return [
+ *          [
+ *              'class' => I18nAttributeBehavior::className(),
+ *              'attributes' => ['name'],
+ *              'relation' => 'translations',
+ *          ],
+ *     ];
+ * }
+ * ```
  *
  * @link https://github.com/mg-code/yii2-language
  * @author Maris Graudins <maris@mg-interactive.lv>

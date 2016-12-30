@@ -8,6 +8,9 @@ use yii\db\ActiveQuery;
 
 /**
  * Class I18nAttributeBehavior
+ *
+ * @link https://github.com/mg-code/yii2-language
+ * @author Maris Graudins <maris@mg-interactive.lv>
  * @property \yii\db\ActiveRecord $owner
  */
 class I18nQueryBehavior extends Behavior
