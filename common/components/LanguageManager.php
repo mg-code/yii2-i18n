@@ -95,12 +95,21 @@ class LanguageManager extends Object implements BootstrapInterface
     {
         $urlManager = \Yii::$app->urlManager;
 
+        $defaultRoute = \Yii::$app->defaultRoute;
+        if(!$defaultRoute || $defaultRoute == 'site') {
+            $defaultRoute = 'site/index';
+        }
+
         // Add url rules for all other languages
         $otherLanguages = $this->getSupported();
         unset($otherLanguages[array_search($this->defaultLanguage, $this->getSupported())]);
         if ($otherLanguages) {
             $implode = implode('|', $otherLanguages);
             $urlManager->addRules([
+                [
+                    'pattern' => '/<lang:('.$implode.')>/',
+                    'route' => $defaultRoute,
+                ],
                 [
                     'pattern' => '/<lang:('.$implode.')>/<module:>/<controller:>',
                     'route' => '<module>/<controller>',
@@ -122,6 +131,11 @@ class LanguageManager extends Object implements BootstrapInterface
 
         // Add url rules for default language
         $urlManager->addRules([
+            [
+                'pattern' => '/',
+                'route' => $defaultRoute,
+                'defaults' => ['lang' => $this->defaultLanguage],
+            ],
             [
                 'pattern' => '/<module:>/<controller:>',
                 'route' => '<module>/<controller>',
