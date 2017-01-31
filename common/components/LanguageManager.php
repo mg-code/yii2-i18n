@@ -6,6 +6,7 @@ use mgcode\i18n\common\models\Language;
 use yii\base\BootstrapInterface;
 use yii\base\InvalidParamException;
 use yii\base\Object;
+use yii\helpers\ArrayHelper;
 use yii\web\Application;
 
 /**
@@ -48,7 +49,7 @@ class LanguageManager extends Object implements BootstrapInterface
         if ($this->defaultLanguage === null) {
             throw new InvalidParamException('`defaultLanguage` must be set');
         }
-        if (!in_array($this->defaultLanguage, $this->getSupported())) {
+        if (!in_array($this->defaultLanguage, $this->getSupported(true))) {
             throw new InvalidParamException('`defaultLanguage` is not supported. Did you insert supported languages into language table?');
         }
         if ($this->loadUrlRules) {
@@ -65,7 +66,7 @@ class LanguageManager extends Object implements BootstrapInterface
         $app->on(Application::EVENT_BEFORE_ACTION, function () use ($app) {
             $request = $app->getRequest();
             $language = (string) $request->get('lang');
-            if ($language && in_array($language, $this->getSupported())) {
+            if ($language && in_array($language, $this->getSupported(true))) {
                 $app->language = $language;
             } else {
                 $app->language = $this->defaultLanguage;
@@ -78,14 +79,17 @@ class LanguageManager extends Object implements BootstrapInterface
 
     /**
      * Returns list of supported languages.
-     * @return array
+     * @param bool $returnIsoCode
+     * @return array|Language[]
      */
-    public function getSupported()
+    public function getSupported($returnIsoCode = false)
     {
-        if ($this->_supported !== null) {
-            return $this->_supported;
+        if ($this->_supported === null) {
+            $this->_supported = Language::find()->sort()->all();
         }
-        $this->_supported = Language::find()->select('iso_code')->column();
+        if ($returnIsoCode) {
+            return ArrayHelper::getColumn($this->_supported, 'iso_code');
+        }
         return $this->_supported;
     }
 
@@ -97,13 +101,13 @@ class LanguageManager extends Object implements BootstrapInterface
         $urlManager = \Yii::$app->urlManager;
 
         $defaultRoute = \Yii::$app->defaultRoute;
-        if(!$defaultRoute || $defaultRoute == 'site') {
+        if (!$defaultRoute || $defaultRoute == 'site') {
             $defaultRoute = 'site/index';
         }
 
         // Add url rules for all other languages
-        $otherLanguages = $this->getSupported();
-        unset($otherLanguages[array_search($this->defaultLanguage, $this->getSupported())]);
+        $otherLanguages = $this->getSupported(true);
+        unset($otherLanguages[array_search($this->defaultLanguage, $otherLanguages)]);
         if ($otherLanguages) {
             $implode = implode('|', $otherLanguages);
             $urlManager->addRules([
