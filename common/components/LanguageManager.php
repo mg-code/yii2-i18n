@@ -70,6 +70,7 @@ class LanguageManager extends Object implements BootstrapInterface
             } else {
                 $app->language = $this->defaultLanguage;
             }
+            $app->formatter->locale = $app->language;
         });
     }
 
