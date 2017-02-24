@@ -26,6 +26,12 @@ class LanguageQuery extends \yii\db\ActiveQuery
         return $this;
     }
 
+    public function active()
+    {
+        $this->andWhere(['is_active' => 1]);
+        return $this;
+    }
+
     /**
      * @inheritdoc
      * @return \mgcode\i18n\common\models\Language[]|array

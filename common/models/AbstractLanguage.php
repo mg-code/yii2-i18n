@@ -10,6 +10,7 @@ use Yii;
  * @property string $iso_code
  * @property string $title
  * @property integer $sort
+ * @property integer $is_active
  * @property string $created_at
  * @property string $updated_at
  */
@@ -28,7 +29,7 @@ abstract class AbstractLanguage extends \yii\db\ActiveRecord
     {
         return [
             [['iso_code', 'title', 'sort', 'updated_at'], 'required'],
-            [['sort'], 'integer'],
+            [['sort', 'is_active'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['iso_code'], 'string', 'max' => 2],
             [['title'], 'string', 'max' => 255],
@@ -44,6 +45,7 @@ abstract class AbstractLanguage extends \yii\db\ActiveRecord
             'iso_code' => 'Iso Code',
             'title' => 'Title',
             'sort' => 'Sort',
+            'is_active' => 'Is Active',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

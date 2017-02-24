@@ -85,7 +85,7 @@ class LanguageManager extends Object implements BootstrapInterface
     public function getSupported($returnIsoCode = false)
     {
         if ($this->_supported === null) {
-            $this->_supported = Language::find()->sort()->all();
+            $this->_supported = Language::find()->sort()->active()->all();
         }
         if ($returnIsoCode) {
             return ArrayHelper::getColumn($this->_supported, 'iso_code');
