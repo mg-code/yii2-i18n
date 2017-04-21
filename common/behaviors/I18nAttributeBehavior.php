@@ -81,7 +81,7 @@ class I18nAttributeBehavior extends Behavior
         /** @var string $modelClass */
         $modelClass = $this->owner->getRelation($this->relation)->modelClass;
 
-        $languages = \Yii::$app->languageManager->getSupported();
+        $languages = \Yii::$app->languageManager->getSupported(true);
         $translations = $this->getTranslations();
         foreach ($this->attributes as $attribute) {
             foreach ($languages as $language) {

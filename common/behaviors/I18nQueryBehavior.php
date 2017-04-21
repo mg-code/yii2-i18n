@@ -7,7 +7,7 @@ use yii\base\Behavior;
 use yii\db\ActiveQuery;
 
 /**
- * Class I18nAttributeBehavior
+ * Class I18nQueryBehavior
  *
  * @link https://github.com/mg-code/yii2-language
  * @author Maris Graudins <maris@mg-interactive.lv>
