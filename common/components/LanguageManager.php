@@ -35,11 +35,14 @@ use yii\web\Application;
  */
 class LanguageManager extends Object implements BootstrapInterface
 {
+    const PARAM_UUID_LANGUAGE = 'lang';
+
     /** @var string Iso code of default language */
     public $defaultLanguage;
 
     /** @var bool Automatically load rules to urlManager */
     public $loadUrlRules = true;
+    private $_supported;
 
     /**
      * @inheritdoc
@@ -63,19 +66,10 @@ class LanguageManager extends Object implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        $app->on(Application::EVENT_BEFORE_ACTION, function () use ($app) {
-            $request = $app->getRequest();
-            $language = (string) $request->get('lang');
-            if ($language && in_array($language, $this->getSupported(true))) {
-                $app->language = $language;
-            } else {
-                $app->language = $this->defaultLanguage;
-            }
-            $app->formatter->locale = $app->language;
+        $app->on(Application::EVENT_BEFORE_ACTION, function () {
+            $this->detectLanguage();
         });
     }
-
-    private $_supported;
 
     /**
      * Returns list of supported languages.
@@ -91,6 +85,86 @@ class LanguageManager extends Object implements BootstrapInterface
             return ArrayHelper::getColumn($this->_supported, 'iso_code');
         }
         return $this->_supported;
+    }
+
+    public function redirectToLanguage($language)
+    {
+        $urlRoute = $this->buildUrlRoute($language);
+        \Yii::$app->response->redirect($urlRoute);
+        \Yii::$app->end();
+    }
+
+    /**
+     * Whether to use uuid parameter for first page redirect.
+     * Most search engine crawlers are excluded.
+     * @return bool
+     */
+    public function useUuidParameter()
+    {
+        return !(isset($_SERVER['HTTP_USER_AGENT']) && preg_match('/bot|crawl|slurp|spider/i', $_SERVER['HTTP_USER_AGENT']));
+    }
+
+    protected function buildUrlRoute($language)
+    {
+        $urlRoute = array_merge(
+            ['/'.\Yii::$app->controller->route],
+            \Yii::$app->request->get(),
+            ['lang' => $language]
+        );
+        unset($urlRoute['setLanguage']);
+        return $urlRoute;
+    }
+
+    /**
+     * Detects user language
+     */
+    protected function detectLanguage()
+    {
+        $request = \Yii::$app->getRequest();
+
+        // Set new language
+        if ($setLanguage = $request->get('setLanguage')) {
+            $this->saveLanguage($setLanguage);
+        }
+
+        $language = (string) $request->get('lang');
+        if ($language && in_array($language, $this->getSupported(true))) {
+            \Yii::$app->language = $language;
+        } else {
+            \Yii::$app->language = $this->defaultLanguage;
+        }
+        \Yii::$app->formatter->locale = \Yii::$app->language;
+        $this->handleLandingPage();
+    }
+
+    /**
+     * Handles landing page. Redirects to selected language.
+     */
+    protected function handleLandingPage()
+    {
+        $request = \Yii::$app->getRequest();
+        if (!$this->useUuidParameter() || $request->url != '/') {
+            return;
+        }
+
+        $savedLanguage = \Yii::$app->uuid->getParam(static::PARAM_UUID_LANGUAGE);
+        if ($savedLanguage && in_array($savedLanguage, $this->getSupported(true)) && $savedLanguage != \Yii::$app->language) {
+            $this->redirectToLanguage($savedLanguage);
+        }
+    }
+
+    /**
+     * @param $language
+     */
+    protected function saveLanguage($language)
+    {
+        if (!in_array($language, $this->getSupported(true))) {
+            return;
+        }
+        if ($this->useUuidParameter()) {
+            \Yii::$app->uuid->setParam(static::PARAM_UUID_LANGUAGE, $language);
+        }
+        $this->redirectToLanguage($language);
     }
 
     /**

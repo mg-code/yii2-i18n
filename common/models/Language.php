@@ -10,14 +10,16 @@ use yii\helpers\Url;
 class Language extends AbstractLanguage
 {
     /**
+     * @param array $extraParameters
      * @return string
      */
-    public function getUrl()
+    public function getUrl($extraParameters = [])
     {
         $route = array_merge(
             ['/'.\Yii::$app->controller->route],
             \Yii::$app->request->get(),
-            ['lang' => $this->iso_code]
+            ['lang' => $this->iso_code],
+            $extraParameters
         );
         return Url::to($route);
     }
