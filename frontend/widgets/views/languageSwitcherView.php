@@ -3,7 +3,7 @@
 /** @var $languages \mgcode\i18n\common\models\Language[] */
 ?>
 <div id="lang-nav" class="dropdown">
-    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= strtoupper(Yii::$app->language); ?> <span class="caret"></span></a>
+    <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-language="<?= Yii::$app->language; ?>"><?= strtoupper(Yii::$app->language); ?> <span class="caret"></span></a>
     <ul class="dropdown-menu">
         <?php foreach($languages as $language): ?>
             <li><a href="<?= $language->getUrl(); ?>" data-language="<?= $language->iso_code; ?>"><?= strtoupper($language->iso_code); ?></a></li>
