@@ -10,9 +10,7 @@
         }
     };
 
-    var defaultSettings = {
-        languages: {}
-    };
+    var defaultSettings = {};
     var settings = {};
 
     var methods = {
@@ -33,7 +31,7 @@
             $e.on('click', 'li a[data-language]', function (e) {
                 var $this = $(this),
                     language = $this.data('language'),
-                    url = settings.languages[language];
+                    url = mgcode.helpers.url.addParam(window.location.href, 'setLanguage', language);
 
                 e.preventDefault();
                 window.location.href = url;

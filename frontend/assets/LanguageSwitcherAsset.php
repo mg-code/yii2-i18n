@@ -20,6 +20,7 @@ class LanguageSwitcherAsset extends AssetBundle
     ];
     public $depends = [
         'yii\web\JqueryAsset',
+        'mgcode\helpers\HelpersAsset',
     ];
 
     /**
@@ -29,14 +30,6 @@ class LanguageSwitcherAsset extends AssetBundle
      */
     public function initPlugin(View $view, $selector, $options = [])
     {
-        $languages = [];
-        foreach (\Yii::$app->languageManager->getSupported() as $language) {
-            $languages[$language->iso_code] = $language->getUrl(['setLanguage' => $language->iso_code]);
-        }
-        $options = array_merge([
-            'languages' => $languages,
-        ], $options);
-
         $json = Json::encode($options);
         $view->registerJs("$('{$selector}').languageSwitcher({$json});");
         return $this;
