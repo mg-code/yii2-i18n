@@ -31,7 +31,7 @@
             $e.on('click', 'li a[data-language]', function (e) {
                 var $this = $(this),
                     language = $this.data('language'),
-                    url = mgcode.helpers.url.addParam(window.location.href, 'setLanguage', language);
+                    url = mgcode.helpers.url.addParam(window.location.href.split('#')[0], 'setLanguage', language);
 
                 e.preventDefault();
                 window.location.href = url;
