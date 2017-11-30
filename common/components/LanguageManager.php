@@ -42,6 +42,10 @@ class LanguageManager extends Object implements BootstrapInterface
 
     /** @var bool Automatically load rules to urlManager */
     public $loadUrlRules = true;
+
+    /** @var bool Use language code in urls for default language */
+    public $defaultLanguageCodeInUrl = false;
+
     private $_supported;
 
     /**
@@ -180,10 +184,12 @@ class LanguageManager extends Object implements BootstrapInterface
         }
 
         // Add url rules for all other languages
-        $otherLanguages = $this->getSupported(true);
-        unset($otherLanguages[array_search($this->defaultLanguage, $otherLanguages)]);
-        if ($otherLanguages) {
-            $implode = implode('|', $otherLanguages);
+        $languages = $this->getSupported(true);
+        if (!$this->defaultLanguageCodeInUrl) {
+            unset($languages[array_search($this->defaultLanguage, $languages)]);
+        }
+        if ($languages) {
+            $implode = implode('|', $languages);
             $urlManager->addRules([
                 [
                     'pattern' => '/<lang:('.$implode.')>/',
@@ -209,32 +215,34 @@ class LanguageManager extends Object implements BootstrapInterface
         }
 
         // Add url rules for default language
-        $urlManager->addRules([
-            [
-                'pattern' => '/',
-                'route' => $defaultRoute,
-                'defaults' => ['lang' => $this->defaultLanguage],
-            ],
-            [
-                'pattern' => '/<module:>/<controller:>',
-                'route' => '<module>/<controller>',
-                'defaults' => ['lang' => $this->defaultLanguage],
-            ],
-            [
-                'pattern' => '/<module:>/<controller:>/<action:>',
-                'route' => '<module>/<controller>/<action>',
-                'defaults' => ['lang' => $this->defaultLanguage],
-            ],
-            [
-                'pattern' => '/<controller:>',
-                'route' => '<controller>',
-                'defaults' => ['lang' => $this->defaultLanguage],
-            ],
-            [
-                'pattern' => '/<controller:>/<action:>',
-                'route' => '<controller>/<action>',
-                'defaults' => ['lang' => $this->defaultLanguage],
-            ],
-        ]);
+        if (!$this->defaultLanguageCodeInUrl) {
+            $urlManager->addRules([
+                [
+                    'pattern' => '/',
+                    'route' => $defaultRoute,
+                    'defaults' => ['lang' => $this->defaultLanguage],
+                ],
+                [
+                    'pattern' => '/<module:>/<controller:>',
+                    'route' => '<module>/<controller>',
+                    'defaults' => ['lang' => $this->defaultLanguage],
+                ],
+                [
+                    'pattern' => '/<module:>/<controller:>/<action:>',
+                    'route' => '<module>/<controller>/<action>',
+                    'defaults' => ['lang' => $this->defaultLanguage],
+                ],
+                [
+                    'pattern' => '/<controller:>',
+                    'route' => '<controller>',
+                    'defaults' => ['lang' => $this->defaultLanguage],
+                ],
+                [
+                    'pattern' => '/<controller:>/<action:>',
+                    'route' => '<controller>/<action>',
+                    'defaults' => ['lang' => $this->defaultLanguage],
+                ],
+            ]);
+        }
     }
 }
