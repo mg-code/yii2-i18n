@@ -132,6 +132,10 @@ class LanguageManager extends Object implements BootstrapInterface
         }
 
         $language = (string) $request->get('lang');
+        if (!$language) {
+            $language = (string) $request->getBodyParam('lang');
+        }
+
         if ($language && in_array($language, $this->getSupported(true))) {
             \Yii::$app->language = $language;
         } else {
