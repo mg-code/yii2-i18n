@@ -126,12 +126,18 @@ class LanguageManager extends Object implements BootstrapInterface
     {
         $request = \Yii::$app->getRequest();
 
-        // Set new language
-        if ($setLanguage = $request->get('setLanguage')) {
-            $this->saveLanguage($setLanguage);
+        // Changes language
+        if (!$request->getIsAjax() && ($setLanguage = $request->get('setLanguage'))) {
+            $this->changeLanguage($setLanguage);
         }
 
+        // Check language in _GET
         $language = (string) $request->get('lang');
+        // See for headers
+        if (!$language) {
+            $language = (string) $request->getHeaders()->get('Set-Language');
+        }
+        // See in body payload
         if (!$language) {
             $language = (string) $request->getBodyParam('lang');
         }
@@ -164,7 +170,7 @@ class LanguageManager extends Object implements BootstrapInterface
     /**
      * @param $language
      */
-    protected function saveLanguage($language)
+    protected function changeLanguage($language)
     {
         if (!in_array($language, $this->getSupported(true))) {
             return;
