@@ -157,7 +157,7 @@ class LanguageManager extends BaseObject implements BootstrapInterface
     protected function handleLandingPage()
     {
         $request = \Yii::$app->getRequest();
-        if (!$this->useUuidParameter() || $request->url != '/') {
+        if (!\Yii::$app->has('uuid') || !$this->useUuidParameter() || $request->url != '/') {
             return;
         }
 
@@ -175,7 +175,7 @@ class LanguageManager extends BaseObject implements BootstrapInterface
         if (!in_array($language, $this->getSupported(true))) {
             return;
         }
-        if ($this->useUuidParameter()) {
+        if ($this->useUuidParameter() && \Yii::$app->has('uuid')) {
             \Yii::$app->uuid->setParam(static::PARAM_UUID_LANGUAGE, $language);
         }
         $this->redirectToLanguage($language);
