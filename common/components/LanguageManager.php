@@ -5,7 +5,7 @@ namespace mgcode\i18n\common\components;
 use mgcode\i18n\common\models\Language;
 use yii\base\BootstrapInterface;
 use yii\base\InvalidParamException;
-use yii\base\Object;
+use yii\base\BaseObject;
 use yii\helpers\ArrayHelper;
 use yii\web\Application;
 
@@ -33,7 +33,7 @@ use yii\web\Application;
  * @link https://github.com/mg-code/yii2-language
  * @author Maris Graudins <maris@mg-interactive.lv>
  */
-class LanguageManager extends Object implements BootstrapInterface
+class LanguageManager extends BaseObject implements BootstrapInterface
 {
     const PARAM_UUID_LANGUAGE = 'lang';
 
